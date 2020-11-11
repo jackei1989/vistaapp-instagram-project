@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,11 @@ use App\Http\Requests\AuthUserRegister;
 
 class RegisterController extends Controller
 {
-    // method for user register
+    /**
+     * 
+     * Register Handler
+     * 
+     */
     public function register(AuthUserRegister $request)
     {
         // validate the request data
@@ -26,12 +30,12 @@ class RegisterController extends Controller
 
         $data = [
             'status'    => 'success',
-            'response'  => [
+            'massage'   =>  'ثبت نام شما موفقیت آمیز بود',
+            'data'  => [
                 'user'          => $user,
                 'accessToken'   => $userToken,
-            ] 
+            ]
         ];
         return response()->json($data, 200);
     }
-
 }
