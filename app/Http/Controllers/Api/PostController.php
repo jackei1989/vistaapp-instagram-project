@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\Post;
+namespace App\Http\Controllers\Api;
 
+use App\Classes\Helpers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,25 @@ use App\Http\Requests\PostStore;
 
 class PostController extends Controller
 {
+
+    protected $notFoundPost = [
+        'status'    => 'error',
+        'massage'   => 'پست مورد نظر یافت نشد',
+        'data'  => []
+    ];
+
+    protected $userNotAuth = [
+        'status'    => 'error',
+        'massage'   => 'هویت کاربر نا مشخص است',
+        'data'  => []
+    ];
+
+    protected $accessDeny = [
+        'status'    => 'error',
+        'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
+        'data'  => []
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +42,7 @@ class PostController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
@@ -64,12 +79,7 @@ class PostController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
@@ -112,7 +122,6 @@ class PostController extends Controller
                 'data'  => []
             ];
 
-
             return response()->json($data, 404);
             die;
         }
@@ -141,32 +150,17 @@ class PostController extends Controller
         $post = Post::where('user_id', $user->id)->where('id', $post_id)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
         if ($user->id != Auth::user()->id) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->accessDeny, 203);
             die;
         }
 
         if (!$post) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'پست مورد نظر یافت نشد',
-                'data'  => []
-            ];
-            return response()->json($data, 404);
+            return response()->json($this->notFoundPost, 404);
             die;
         }
 
@@ -193,32 +187,17 @@ class PostController extends Controller
         $post = Post::where('user_id', $user->id)->where('id', $post_id)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
         if ($user->id != Auth::user()->id) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->accessDeny, 203);
             die;
         }
 
         if (!$post) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'پست مورد نظر یافت نشد',
-                'data'  => []
-            ];
-            return response()->json($data, 404);
+            return response()->json($this->notFoundPost, 404);
             die;
         }
 
@@ -248,32 +227,17 @@ class PostController extends Controller
         $post = Post::where('user_id', $user->id)->where('id', $post_id)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
         if ($user->id != Auth::user()->id) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->accessDeny, 203);
             die;
         }
 
         if (!$post) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'پست مورد نظر یافت نشد',
-                'data'  => []
-            ];
-            return response()->json($data, 404);
+            return response()->json($this->notFoundPost, 404);
             die;
         }
 
@@ -300,22 +264,12 @@ class PostController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
         if (!$post) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'پست مورد نظر یافت نشد',
-                'data'  => []
-            ];
-            return response()->json($data, 404);
+            return response()->json($this->notFoundPost, 404);
             die;
         }
 

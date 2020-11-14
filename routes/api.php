@@ -3,10 +3,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SearchController;
-use App\Http\Controllers\Api\Post\PostController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\Panel\UserController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 
 /*
@@ -96,3 +98,19 @@ Route::get('like/{post_id}', [PostController::class, 'likePost'])->middleware('a
  * 
  */
 Route::any('sortpostmostlike', [PostController::class, 'sortPostByMostLike']);
+
+/**
+ * 
+ * Route for Sort Posts By Most Like
+ * 
+ */
+Route::post('post/comment', [CommentController::class, 'store'])->middleware('auth:api');
+Route::get('post/comment/{post_id}/like', [CommentController::class, 'likeComment'])->middleware('auth:api');
+
+/**
+ * 
+ * Route for user archives
+ * 
+ */
+Route::get('archive/{post_id}', [ArchiveController::class, 'save'])->middleware('auth:api');
+Route::get('search/archive', [SearchController::class, 'searchInArchive'])->middleware('auth:api');

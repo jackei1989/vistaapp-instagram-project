@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Panel;
+namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Follower;
@@ -12,6 +12,24 @@ use App\Http\Requests\UpdateUserProfile;
 
 class UserController extends Controller
 {
+    protected $userNotAuth = [
+        'status'    => 'error',
+        'massage'   => 'هویت کاربر نا مشخص است',
+        'data'  => []
+    ];
+
+    protected $notFoundUser = [
+        'status'    => 'error',
+        'massage'   => 'کاربر مورد نظر شما یافت نشد!',
+        'data'  => []
+    ];
+
+    protected $accessDeny = [
+        'status'    => 'error',
+        'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
+        'data'  => []
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +40,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'هویت کاربر نا مشخص است',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->userNotAuth, 203);
             die;
         }
 
@@ -73,14 +86,7 @@ class UserController extends Controller
         $user = User::where('user_name', $user_name)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-
-
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 
@@ -106,12 +112,7 @@ class UserController extends Controller
         $user = User::where('user_name', $user_name)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 
@@ -138,24 +139,12 @@ class UserController extends Controller
         $user = User::where('user_name', $user_name)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-
-
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 
         if ($user->id != Auth::user()->id) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->accessDeny, 203);
             die;
         }
 
@@ -189,24 +178,12 @@ class UserController extends Controller
         $user = User::where('user_name', $user_name)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-
-
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 
         if ($user->id != Auth::user()->id) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'شما دسترسی لازم را برای انجام این کار ندارید!',
-                'data'  => []
-            ];
-            return response()->json($data, 203);
+            return response()->json($this->accessDeny, 203);
             die;
         }
 
@@ -232,14 +209,7 @@ class UserController extends Controller
         $user = User::where('user_name', $user_name)->first();
 
         if (!$user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-
-
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 
@@ -264,14 +234,7 @@ class UserController extends Controller
         $following_user = User::where('user_name', $user_name)->first();
 
         if (!$following_user) {
-            $data = [
-                'status'    => 'error',
-                'massage'   => 'کاربر مورد نظر شما یافت نشد!',
-                'data'  => []
-            ];
-
-
-            return response()->json($data, 404);
+            return response()->json($this->notFoundUser, 404);
             die;
         }
 

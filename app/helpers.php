@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Response;
 /**
  * 
  * function for,if not auth user die
@@ -62,7 +62,7 @@ function accessDenyAndDie($user)
 /**
  * 
  * function for, if not found post die
- * 
+ * @return \Illuminate\Http\Response
  */
 function notFoundPostAndDie($post)
 {
